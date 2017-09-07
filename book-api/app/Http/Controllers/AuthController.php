@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Transformers\UserTransformer;
 
 class AuthController extends Controller
 {
@@ -42,7 +43,6 @@ class AuthController extends Controller
 
     public function handleLogin(Request $request)
     {
-
         try {
             if(!$token = $this->auth->attempt($request->only(['email','password']))){
                 return response()->json([
@@ -59,7 +59,9 @@ class AuthController extends Controller
             ], $e->getCode());
         }
 
-        dd('worked');
+        return fractal($request->user(),new UserTransformer())->toArray();
+
+
     }
 
 
