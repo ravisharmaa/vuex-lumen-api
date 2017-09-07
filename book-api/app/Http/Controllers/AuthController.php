@@ -59,7 +59,7 @@ class AuthController extends Controller
             ], $e->getCode());
         }
 
-        return fractal($request->user(),new UserTransformer())->toArray();
+        return fractal($request->user(),new UserTransformer($token))->toArray();
 
 
     }
